@@ -3,6 +3,7 @@
     "build": "./node_modules/webpack/bin/webpack.js"
   },
   "dependencies": {
+    "ga-lite": "^2.0.1",
     "web-termjs": "^1.1.2"
   },
   "devDependencies": {

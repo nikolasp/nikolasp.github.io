@@ -1,9 +1,18 @@
+import galite from 'ga-lite'
 import { Terminal } from 'web-termjs'
 import * as terminalStyles from 'web-termjs/dist/terminal.css'
 
 const container = document.createElement('div')
 container.id = 'terminal'
 document.body.appendChild(container)
+
+galite('create', 'UA-42976635-2', 'auto')
+galite('send', 'pageview')
+
+window.addEventListener(
+  'unload',
+  () => galite('send', 'timing', 'JS Dependencies', 'unload')
+)
 
 const commands = {
   echo: {
@@ -27,6 +36,13 @@ const echo = (stream, args) => {
     return
   }
   stream.write(cmdResult)
+  galite('send', 'event', {
+    hitType: 'event',
+    eventCategory: 'Command',
+    eventAction: `Echo ${args[0]}`,
+    eventLabel: `Echo ${args[0]}`,
+    eventValue: 1
+  })
 }
 
 const goto = (args) => {
@@ -34,6 +50,13 @@ const goto = (args) => {
   if (!page) {
     return
   }
+  galite('send', 'event', {
+    hitType: 'event',
+    eventCategory: 'Command',
+    eventAction: `Go to page ${args[0]}`,
+    eventLabel: `Go to page ${args[0]}`,
+    eventValue: 2
+  })
   window.open(page, '_blank')
 }
 
